@@ -1,0 +1,11 @@
+Django
+djangorestframework
+markdown
+django-filter
+djangorestframework-simplejwt
+psycopg2-binary
+requests
+django-redis
+django-cors-headers
+pytest-django
+locust
