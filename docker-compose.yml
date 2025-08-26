@@ -1,0 +1,83 @@
+version: '3.8'
+
+services:
+
+  auth_service:
+    build:
+      context: ./auth_service 
+      dockerfile: Dockerfile  
+    ports:
+      - "8000:8000" 
+    depends_on:
+      - postgres_auth  
+    networks:
+      - backend-net  
+
+  expenses_service:
+    build:
+      context: ./expenses_service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000" 
+    depends_on:
+      - postgres_expenses
+    networks:
+      - backend-net
+
+  reports_service:
+    build:
+      context: ./reports_service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    depends_on:
+      - postgres_reports
+    networks:
+      - backend-net
+
+  postgres_auth:
+    image: postgres:latest  
+    environment:  
+      POSTGRES_USER: ${AUTH_DB_USER}
+      POSTGRES_PASSWORD: ${AUTH_DB_PASSWORD}
+      POSTGRES_DB: ${AUTH_DB_NAME}
+    volumes:
+      - db_data_auth:/var/lib/postgresql/data  
+    ports:
+      - "5432:5432"  
+    networks:
+      - backend-net
+
+  postgres_expenses:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${EXPENSES_DB_USER}
+      POSTGRES_PASSWORD: ${EXPENSES_DB_PASSWORD}
+      POSTGRES_DB: ${EXPENSES_DB_NAME}
+    volumes:
+      - db_data_expenses:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"  
+    networks:
+      - backend-net
+
+  postgres_reports:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${REPORTS_DB_USER}
+      POSTGRES_PASSWORD: ${REPORTS_DB_PASSWORD}
+      POSTGRES_DB: ${REPORTS_DB_NAME}
+    volumes:
+      - db_data_reports:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - backend-net
+
+volumes:
+  db_data_auth:
+  db_data_expenses:
+  db_data_reports:
+
+networks:
+  backend-net:
