@@ -9,7 +9,9 @@ services:
     ports:
       - "8000:8000" 
     depends_on:
-      - postgres_auth  
+      - postgres_auth
+    env_file:
+      - .env
     networks:
       - backend-net  
 
@@ -21,6 +23,8 @@ services:
       - "8001:8000" 
     depends_on:
       - postgres_expenses
+    env_file:
+      - .env
     networks:
       - backend-net
 
@@ -32,6 +36,8 @@ services:
       - "8002:8000"
     depends_on:
       - postgres_reports
+    env_file:
+      - .env
     networks:
       - backend-net
 

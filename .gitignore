@@ -3,6 +3,7 @@ venv/
 env/
 .venv/
 .env/
+.env
 #cash
 __pycache__/
 *.pyc
